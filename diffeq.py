@@ -15,7 +15,7 @@ print("{:<}".format("|"), "{:^54}".format("ay'''(t) + by''(t) + cy'(t) + dy(t) =
 print("{:<}".format("|"), "{:^55}".format("y(0) = y\u2080, y'(0) = y'\u2080, y''(0) = y''\u2080"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^54}".format("t \u220A [0;10]"), "{:>}".format("|"))
 print("_" * 58)
-
+a = 1
 
 class IntegrationStepError(Exception):  # заменить на built-in exception мб
 
