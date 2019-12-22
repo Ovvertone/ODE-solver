@@ -9,7 +9,6 @@ print("{:<}".format("|"), "{:^54}".format("Решение обыкновенно
 print("{:<}".format("|"), "{:^54}".format("третьего порядка методом Эйлера"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^54}".format("ay'''(t) + by''(t) + cy'(t) + dy(t) = f(t)"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^55}".format("y(0) = y\u2080, y'(0) = y'\u2080, y''(0) = y''\u2080"), "{:>}".format("|"))
-print("{:<}".format("|"), "{:^54}".format("t \u220A [0;10]"), "{:>}".format("|"))
 print("_" * 58)
 
 LOWER_LIMIT = 0
@@ -22,8 +21,7 @@ while not LOWER_LIMIT < step <= STEP_MAX:  # закончить с провер�
     try:
         raise ValueError
     except ValueError as error:
-        print(Fore.RED + "IntegrationStepError: integration step should be in the range (0:1]"
-                                   "\nВведите корректное значение")
+        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{STEP_MAX}]")
         step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
 step_count =  UPPER_LIMIT // step
