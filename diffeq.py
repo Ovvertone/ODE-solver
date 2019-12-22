@@ -4,10 +4,6 @@ from colorama import Fore, Style
 from sys import exit
 
 
-LOWER_LIMIT = 0
-UPPER_LIMIT = 10
-STEP_MAX = 1
-
 print(Fore.MAGENTA + "_" * 58)
 print("{:<}".format("|"), "{:^54}".format("Решение обыкновенного дифференциального уравнения"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^54}".format("третьего порядка методом Эйлера"), "{:>}".format("|"))
@@ -16,13 +12,18 @@ print("{:<}".format("|"), "{:^55}".format("y(0) = y\u2080, y'(0) = y'\u2080, y''
 print("{:<}".format("|"), "{:^54}".format("t \u220A [0;10]"), "{:>}".format("|"))
 print("_" * 58)
 
+LOWER_LIMIT = 0
+UPPER_LIMIT = int(input(Style.NORMAL + "\nВведите верхний предел интегрирования: "))
+STEP_MAX = int(input("Введите максимальный шаг интегрирования: "))
+
+
 class IntegrationStepError(Exception):  # заменить на built-in exception мб
 
     def __init__(self, msg):
         self.msg = Fore.RED + msg
 
 
-step = float(input(Style.NORMAL + "\nВведите шаг интегрирования: ")) # решить проблему с точностью
+step = float(input(Style.NORMAL + "Введите шаг интегрирования: ")) # решить проблему с точностью
 
 while not LOWER_LIMIT < step <= STEP_MAX:  # закончить с проверкой ТИПА!!!!!!!!!!!
     try:
