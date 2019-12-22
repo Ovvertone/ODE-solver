@@ -16,21 +16,14 @@ LOWER_LIMIT = 0
 UPPER_LIMIT = int(input(Style.NORMAL + "\nВведите верхний предел интегрирования: "))
 STEP_MAX = int(input("Введите максимальный шаг интегрирования: "))
 
-
-class IntegrationStepError(Exception):  # заменить на built-in exception мб
-
-    def __init__(self, msg):
-        self.msg = Fore.RED + msg
-
-
 step = float(input(Style.NORMAL + "Введите шаг интегрирования: ")) # решить проблему с точностью
 
 while not LOWER_LIMIT < step <= STEP_MAX:  # закончить с проверкой ТИПА!!!!!!!!!!!
     try:
-        raise IntegrationStepError("IntegrationStepError: integration step should be in the range (0:1]"
+        raise ValueError
+    except ValueError as error:
+        print(Fore.RED + "IntegrationStepError: integration step should be in the range (0:1]"
                                    "\nВведите корректное значение")
-    except IntegrationStepError as error:
-        print(error.msg)
         step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
 step_count =  UPPER_LIMIT // step
