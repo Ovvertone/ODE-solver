@@ -13,13 +13,20 @@ print("_" * 58)
 LOWER_LIMIT = 0
 UPPER_LIMIT = int(input(Style.NORMAL + "\nВведите верхний предел интегрирования: "))
 
+while not UPPER_LIMIT > LOWER_LIMIT:
+    try:
+        raise ValueError
+    except ValueError as error:
+        print(Fore.RED + "Верхний предел интегрирования должен быть больше 0")
+        UPPER_LIMIT = int(input(Style.NORMAL + "Введите верхний предел интегрирования: "))
+
 step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
 while not LOWER_LIMIT < step <= UPPER_LIMIT:
     try:
         raise ValueError
     except ValueError as error:
-        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{step}]")
+        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{UPPER_LIMIT}]")
         step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
 step_count =  UPPER_LIMIT // step
