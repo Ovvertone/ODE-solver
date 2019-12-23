@@ -1,4 +1,3 @@
-# расписать всё в классах
 from matplotlib import pyplot as plt
 from colorama import Fore, Style
 from sys import exit
@@ -13,15 +12,14 @@ print("_" * 58)
 
 LOWER_LIMIT = 0
 UPPER_LIMIT = int(input(Style.NORMAL + "\nВведите верхний предел интегрирования: "))
-STEP_MAX = int(input("Введите максимальный шаг интегрирования: "))
 
-step = float(input(Style.NORMAL + "Введите шаг интегрирования: ")) # решить проблему с точностью
+step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
-while not LOWER_LIMIT < step <= STEP_MAX:  # закончить с проверкой ТИПА!!!!!!!!!!!
+while not LOWER_LIMIT < step <= UPPER_LIMIT:
     try:
         raise ValueError
     except ValueError as error:
-        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{STEP_MAX}]")
+        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{step}]")
         step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
 step_count =  UPPER_LIMIT // step
@@ -56,7 +54,7 @@ step_number = 0
 i = 0
 
 
-def diff_equation(y, y1, y2, t):  # обобщить ф-ию к любому виду
+def diff_equation(y, y1, y2, t):
     return 1 / (2*t+2) - y - y1 - y2
 
 
@@ -64,8 +62,8 @@ print('\n{:<22}'.format("t"), '{:<22}'.format("y"), '{:<22}'.format("y'"), '{:<2
 print('_' * 90)
 
 
-def Euler(step_count, i, t, step_number, sol_x, sol_y, sol_z):  # создать общую ф-ию с данной в кач-ве шага
-    while i < step_count:                                          # которая на вход получает ф-ию общего диффура
+def Euler(step_count, i, t, step_number, sol_x, sol_y, sol_z):
+    while i < step_count:
         step_number += step
         i += 1
         t.append(step_number)
