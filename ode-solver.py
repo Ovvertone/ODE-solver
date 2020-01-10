@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 from colorama import Fore, Style
 from sys import exit
-
+from re import search
 
 print(Fore.MAGENTA + "_" * 58)
 print("{:<}".format("|"), "{:^54}".format("Решение обыкновенного дифференциального уравнения"), "{:>}".format("|"))
@@ -20,11 +20,11 @@ while not UPPER_LIMIT > LOWER_LIMIT:
         print(Fore.RED + "Верхний предел интегрирования должен быть больше, чем нижний предел интегрирования")
         UPPER_LIMIT = float(input(Style.NORMAL + "Введите верхний предел интегрирования: "))
 
-LIMIT_DIFF = abs(UPPER_LIMIT - LOWER_LIMIT)
+LIMIT_DIFF = UPPER_LIMIT - LOWER_LIMIT
 
 step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
 
-while (not 0 < step <= LIMIT_DIFF):
+while not 0 < step <= LIMIT_DIFF:
     try:
         raise ValueError
     except ValueError:
@@ -34,7 +34,7 @@ while (not 0 < step <= LIMIT_DIFF):
 step_count =  LIMIT_DIFF // step
 
 try:
-    x_0 = float(input("Введите значение y(0): "))
+    x_0 = float(input(Style.NORMAL + "Введите значение y(0): "))
     if type(x_0) == str:
         raise ValueError
 except ValueError:
@@ -98,11 +98,8 @@ for line in range(len(t)):
 
 
 plt.title('Графики функции y и её производных')
-
 plt.plot(t, sol_x)
 plt.plot(t, sol_y)
 plt.plot(t, sol_z)
-
 plt.legend(("y", "y'", "y''"))
-
 plt.show()
