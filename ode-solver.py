@@ -1,73 +1,83 @@
 from matplotlib import pyplot as plt
-from colorama import Fore, Style
-from sys import exit
 from re import search
 
-print(Fore.MAGENTA + "_" * 58)
+print("_" * 58)
 print("{:<}".format("|"), "{:^54}".format("Решение обыкновенного дифференциального уравнения"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^54}".format("третьего порядка методом Эйлера"), "{:>}".format("|"))
 print("{:<}".format("|"), "{:^54}".format("ay'''(t) + by''(t) + cy'(t) + dy(t) = f(t)"), "{:>}".format("|"))
-print("{:<}".format("|"), "{:^55}".format("y(0) = y\u2080, y'(0) = y'\u2080, y''(0) = y''\u2080"), "{:>}".format("|"))
+print("{:<}".format("|"), "{:^54}".format("y(0) = y\u2080, y'(0) = y'\u2080, y''(0) = y''\u2080"), "{:>}".format("|"))
 print("_" * 58)
 
-LOWER_LIMIT = float(input(Style.NORMAL + "\nВведите нижний предел интегрирования: "))
-UPPER_LIMIT = float(input("Введите верхний предел интегрирования: "))
+PATTERN = '\d*\.?\d+[Ee]?[+-]?\d*'
+
+
+def input_lower_limit(lower_limit:str) -> float:
+    if search(PATTERN, lower_limit):
+        lower_limit = float(lower_limit)
+    else:
+        while not search(PATTERN, lower_limit):
+            lower_limit = input("Значение должно быть числовым. Введите ещё раз: ")
+        lower_limit = float(lower_limit)
+    return lower_limit
+
+
+def input_upper_limit(upper_limit:str) -> float:
+    if search(PATTERN, upper_limit):
+        upper_limit = float(upper_limit)
+    else:
+        while not search(PATTERN, upper_limit):
+            upper_limit = input("Значение должно быть числовым. Введите ещё раз: ")
+        upper_limit = float(LOWER_LIMIT)
+    return upper_limit
+
+
+LOWER_LIMIT = input_lower_limit(input("\nВведите нижний предел интегрирования: "))
+UPPER_LIMIT = input_upper_limit(input("Введите верхний предел интегрирования: "))
 
 while not UPPER_LIMIT > LOWER_LIMIT:
     try:
         raise ValueError
     except ValueError as error:
-        print(Fore.RED + "Верхний предел интегрирования должен быть больше, чем нижний предел интегрирования")
-        UPPER_LIMIT = float(input(Style.NORMAL + "Введите верхний предел интегрирования: "))
+        UPPER_LIMIT = input_upper_limit(input("Число должно быть больше, чем нижний предел интегрирования. "
+                                              "Введите ещё раз: "))
 
 LIMIT_DIFF = UPPER_LIMIT - LOWER_LIMIT
 
-step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
+
+def input_step(step:str) -> float:
+    if search(PATTERN, step):
+        step = float(step)
+    else:
+        while not search(PATTERN, step):
+            step = input("Значение должно быть числовым. Введите ещё раз: ")
+        step = float(step)
+    return step
+
+
+step = input_step(input("Введите шаг интегрирования: "))
 
 while not 0 < step <= LIMIT_DIFF:
     try:
         raise ValueError
     except ValueError:
-        print(Fore.RED + f"Шаг интегрирования должен быть в интервале (0:{LIMIT_DIFF}]")
-        step = float(input(Style.NORMAL + "Введите шаг интегрирования: "))
+        step = input_step(input(f"Шаг интегрирования должен быть в интервале (0:{LIMIT_DIFF}]. Введите ещё раз: "))
 
 step_count =  LIMIT_DIFF // step
 
-try:
-    x_0 = float(input(Style.NORMAL + "Введите значение y(0): "))
-    if type(x_0) == str:
-        raise ValueError
-except ValueError:
-    print(Fore.RED + "Введите числовое значение")
-    exit(-1)
-
-try:
-    y_0 = float(input(Style.NORMAL + "Введите значение y'(0): "))
-    if type(y_0) == str:
-        raise ValueError
-except ValueError:
-    print(Fore.RED + "Введите числовое значение")
-    exit(-1)
-
-try:
-    z_0 = float(input( Style.NORMAL + "Введите значение y''(0): "))
-    if type(z_0) == str:
-        raise ValueError
-except ValueError:
-    print(Fore.RED + "Введите числовое значение")
-    exit(-1)
-
+x_0 = float(input("Введите значение y(0): "))
+y_0 = float(input("Введите значение y'(0): "))
+z_0 = float(input("Введите значение y''(0): "))
 sol_x, sol_y, sol_z = [x_0], [y_0], [z_0]
 t = [LOWER_LIMIT]
 step_number = LOWER_LIMIT
 i = 0
 
 
-def diff_equation(y, y1, y2, t):
+def diff_equation(y, y1, y2, t) -> float:
     return 1 / (2*t+2) - y - y1 - y2
 
 
-def Euler(step_count, i, t, step_number, sol_x, sol_y, sol_z):
+def Euler(step_count, i, t, step_number, sol_x, sol_y, sol_z) -> float:
     try:
         while i < step_count:
             step_number += step
@@ -82,7 +92,7 @@ def Euler(step_count, i, t, step_number, sol_x, sol_y, sol_z):
                 sol_y.append(sol_y[i] + step * sol_z[i])
                 sol_z.append(sol_z[i] + step * diff_equation(sol_x[i], sol_y[i], sol_z[i], t[i]))
     except ZeroDivisionError:
-        print(Fore.RED + "В процессе вычисления возникла угроза деления на ноль!")
+        print("В процессе вычисления возникла угроза деления на ноль!")
         exit(-1)
     return sol_x, sol_y, sol_z, t
 
