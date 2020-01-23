@@ -22,24 +22,24 @@ def input_var(var:str) -> float:
     return var
 
 
-LOWER_LIMIT = input_var(input("\nВведите нижний предел интегрирования: "))
-UPPER_LIMIT = input_var(input("Введите верхний предел интегрирования: "))
+lower_limit = input_var(input("\nВведите нижний предел интегрирования: "))
+upper_limit = input_var(input("Введите верхний предел интегрирования: "))
 
-while not UPPER_LIMIT > LOWER_LIMIT:
-    UPPER_LIMIT = input_var(input("Число должно быть больше, чем нижний предел интегрирования. Введите ещё раз: "))
-LIMIT_DIFF = UPPER_LIMIT - LOWER_LIMIT
+while not upper_limit > lower_limit:
+    upper_limit = input_var(input("Число должно быть больше, чем нижний предел интегрирования. Введите ещё раз: "))
+diff_limit = upper_limit - lower_limit
 
 step = input_var(input("Введите шаг интегрирования: "))
-while not 0 < step <= LIMIT_DIFF:
-    step = input_var(input(f"Число должно быть в интервале: {0, LIMIT_DIFF}. Введите ещё раз: "))
+while not 0 < step <= diff_limit:
+    step = input_var(input(f"Число должно быть в интервале: {0, diff_limit}. Введите ещё раз: "))
 
-step_count =  LIMIT_DIFF // step
+step_count = diff_limit // step
 x_0 = input_var(input("Введите значение y(0): "))
 y_0 = input_var(input("Введите значение y'(0): "))
 z_0 = input_var(input("Введите значение y''(0): "))
 sol_x, sol_y, sol_z = [x_0], [y_0], [z_0]
-t = [LOWER_LIMIT]
-step_number = LOWER_LIMIT
+t = [lower_limit]
+step_number = lower_limit
 i = 0
 
 
@@ -55,8 +55,8 @@ def Euler(step:float, step_count:int, i:float, step_number:float, t:list, sol_x:
             sol_y.append(sol_y[i] + step * sol_z[i])
             sol_z.append(sol_z[i] + step * diff_equation(sol_x[i], sol_y[i], sol_z[i], t[i]))
             i += 1
-            if i == step_count and step_number < UPPER_LIMIT:
-                t.append(float(UPPER_LIMIT))
+            if i == step_count and step_number < upper_limit:
+                t.append(float(upper_limit))
                 sol_x.append(sol_x[i] + step * sol_y[i])
                 sol_y.append(sol_y[i] + step * sol_z[i])
                 sol_z.append(sol_z[i] + step * diff_equation(sol_x[i], sol_y[i], sol_z[i], t[i]))
@@ -74,7 +74,6 @@ print('_' * 90)
 for line in range(len(t)):
     print('{:<22}'.format(t[line]),
           '{:<22}'.format(sol_x[line]), '{:<22}'.format(sol_y[line]), '{:<22}'.format(sol_z[line]))
-
 
 plt.title('Графики функции y и её производных')
 plt.plot(t, sol_x)
